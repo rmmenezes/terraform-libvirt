@@ -2,16 +2,15 @@
 resource "libvirt_volume" "compute-qcow2" {
   name = "compute.qcow2"
   pool = "default" # List storage pools using virsh pool-list
-#  source = "https://cloud.debian.org/images/cloud/OpenStack/testing/debian-testing-openstack-amd64.qcow2"
-  source = "/home/server01/images_iso/debian-testing-openstack-amd64.qcow2"
-  format = "qcow2"
+  source = "./images/focal-server-cloudimg-amd64.img"
+  format = "img"
 }
 
 # Define KVM domain to create
 resource "libvirt_domain" "compute" {
   name   = "compute"
-  memory = "4048"
-  vcpu   = 4
+  memory = "12288"
+  vcpu   = 12
 
   network_interface {
     network_name = "default" # List networks with virsh net-list

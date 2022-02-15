@@ -2,16 +2,28 @@
 resource "libvirt_volume" "controller-qcow2" {
   name = "controller.qcow2"
   pool = "default" # List storage pools using virsh pool-list
-#  source = "https://cloud.debian.org/images/cloud/OpenStack/testing/debian-testing-openstack-amd64.qcow2"
-  source = "/home/server01/images_iso/debian-testing-openstack-amd64.qcow2"
-  format = "qcow2"
+  source = "./images/focal-server-cloudimg-amd64.img"
+  format = "img"
 }
+
+data "template_file" "user_data" {
+  template = file("${path.module}/cloud_init.cfg")
+}
+
+resource "libvirt_cloudinit_disk" "commoninit" {
+  name           = "commoninit.iso"
+  user_data      = data.template_file.user_data.rendered
+  pool           = "default"
+}
+
 
 # Define KVM domain to create
 resource "libvirt_domain" "controller" {
   name   = "controller"
-  memory = "4048"
-  vcpu   = 4
+  memory = "12288"
+  vcpu   = 12
+
+  cloudinit = libvirt_cloudinit_disk.commoninit.id
 
   network_interface {
     network_name = "default" # List networks with virsh net-list

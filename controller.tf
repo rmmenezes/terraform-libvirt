@@ -45,6 +45,7 @@ resource "libvirt_domain" "controller" {
 
   disk {
     volume_id = "${libvirt_volume.controller-qcow2.id}"
+    volume_id = "${libvirt_volume.controller-2-qcow2.id}"
   }
 
   console {

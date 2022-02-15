@@ -25,8 +25,8 @@ data "template_file" "network_config_controller" {
 
 resource "libvirt_cloudinit_disk" "commoninit_controller" {
   name           = "commoninit_controller.iso"
-  user_data      = data.template_file.user_data.rendered
-  network_config = data.template_file.network_config.rendered
+  user_data      = data.template_file.user_data_controller.rendered
+  network_config = data.template_file.network_config_controller.rendered
   pool           = "default"
 }
 

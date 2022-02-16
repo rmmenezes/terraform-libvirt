@@ -3,6 +3,7 @@ resource "libvirt_volume" "compute-qcow2" {
   name = "compute.qcow2"
   pool = "default" # List storage pools using virsh pool-list
   source = "./images/focal-server-cloudimg-amd64.img"
+  size = 214748364800
   format = "qcow2"
 }
 

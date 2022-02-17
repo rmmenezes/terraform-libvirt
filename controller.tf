@@ -4,7 +4,6 @@ resource "libvirt_volume" "controller-qcow2" {
   pool = "default" # List storage pools using virsh pool-list
   source = "./images/focal-server-cloudimg-amd64.img"
   format = "qcow2"
-  size = 214748364800
 }
 
 # Defining VM Volume
@@ -52,7 +51,7 @@ resource "libvirt_domain" "controller" {
   disk {
     volume_id = "${libvirt_volume.controller-2-qcow2.id}"
   }
-  
+
   console {
     type = "pty"
     target_type = "serial"
@@ -65,4 +64,3 @@ resource "libvirt_domain" "controller" {
     autoport = true
   }
 }
-
